@@ -18,7 +18,7 @@ function ViewScreen() {
           });
         });
     
-
+    };
         return (
             <View style={styles.container}>
               <Text style={styles.title}>Book List</Text>
@@ -43,8 +43,6 @@ function ViewScreen() {
             </View>
           );
         };
-    }
-        
         const styles = StyleSheet.create({
           container: {
             flex: 1,

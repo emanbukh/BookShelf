@@ -3,57 +3,47 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 
-
 const db = SQLite.openDatabase('bookdb.db');
 
-const InputScreen = ({ route }) => {
-    const navigation = useNavigation()
-  const { isbn } = route.params;
-  const [name, setName] = useState('');
-  const [author, setAuthor] = useState('');
-  const [coverType, setCoverType] = useState('');
-  const [datePurchased, setDatePurchased] = useState('');
-  const [pricePurchased, setPricePurchased] = useState('');
+const EditScreen = ({ route }) => {
+  const navigation = useNavigation();
+  const { book } = route.params;
+  const [name, setName] = useState(book.name);
+  const [author, setAuthor] = useState(book.author);
+  const [coverType, setCoverType] = useState(book.coverType);
+  const [datePurchased, setDatePurchased] = useState(book.datePurchased);
+  const [pricePurchased, setPricePurchased] = useState(book.pricePurchased);
 
-  const handleSave = () => {
+  const handleUpdate = () => {
     if (!name || !author || !coverType || !datePurchased || !pricePurchased) {
       alert('Please fill in all fields.');
       return;
     }
+// Validate date format (MM/DD/YYYY)
+const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
+if (!dateFormat.test(datePurchased)) {
+  alert('Please enter a valid date format (MM/DD/YYYY).');
+  return;
+}
 
- // Validate date format (MM/DD/YYYY)
- const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
- if (!dateFormat.test(datePurchased)) {
-   alert('Please enter a valid date format (MM/DD/YYYY).');
-   return;
- }
+   
+const formattedPrice = parseFloat(pricePurchased).toFixed(2);
 
- const formattedPrice = parseFloat(pricePurchased).toFixed(2);
-
- if (isNaN(formattedPrice)) {
-   alert('Please enter a valid price.');
-   return;
- }
+    if (isNaN(formattedPrice)) {
+      alert('Please enter a valid price.');
+      return;
+    }
 
     db.transaction(tx => {
       tx.executeSql(
-        'INSERT INTO books (isbn, name, author, coverType, datePurchased, pricePurchased) VALUES (?, ?, ?, ?, ?, ?)',
-        [isbn, name, author, coverType, datePurchased, pricePurchased],
+        'UPDATE books SET name=?, author=?, coverType=?, datePurchased=?, pricePurchased=? WHERE id=?',
+        [name, author, coverType, datePurchased, formattedPrice, book.id],
         (_, result) => {
           if (result.rowsAffected > 0) {
-            const savedBook = {
-                id: result.insertId, // assuming your books table has an auto-increment ID column
-                isbn,
-                name,
-                author,
-                coverType,
-                datePurchased,
-                pricePurchased: formattedPrice,
-              };
-              alert('Book information saved successfully.');
-              navigation.navigate('BookDetail', { book: savedBook });
-            }
-          },
+            alert('Book information updated successfully.');
+            navigation.goBack(); // Navigate back to the previous screen
+          }
+        },
         (_, error) => {
           console.error(error);
         }
@@ -63,7 +53,8 @@ const InputScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>ISBN: {isbn}</Text>
+      <Text style={styles.title}>Edit Book</Text>
+      <Text style={styles.label}>ISBN: {book.isbn}</Text>
       <Text style={styles.label}>Book Name:</Text>
       <TextInput
         style={styles.input}
@@ -95,7 +86,7 @@ const InputScreen = ({ route }) => {
         onChangeText={text => setPricePurchased(text)}
         keyboardType="decimal-pad"
       />
-      <Button title="Save" onPress={handleSave} />
+      <Button title="Update" onPress={handleUpdate} />
     </View>
   );
 };
@@ -105,6 +96,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
   },
   label: {
     fontSize: 16,
@@ -120,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputScreen;
+export default EditScreen;

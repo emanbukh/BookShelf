@@ -13,8 +13,8 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Scan')}
       />
       <Button
-        title="View"
-        onPress={() => navigation.navigate('View')}
+        title="Shelf"
+        onPress={() => navigation.navigate('Shelf')}
       />
     </View>
   );
