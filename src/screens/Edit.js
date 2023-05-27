@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('bookdb.db');
@@ -19,15 +20,15 @@ const EditScreen = ({ route }) => {
       alert('Please fill in all fields.');
       return;
     }
-// Validate date format (MM/DD/YYYY)
-const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
-if (!dateFormat.test(datePurchased)) {
-  alert('Please enter a valid date format (MM/DD/YYYY).');
-  return;
-}
 
-   
-const formattedPrice = parseFloat(pricePurchased).toFixed(2);
+    // Validate date format (MM/DD/YYYY)
+    const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!dateFormat.test(datePurchased)) {
+      alert('Please enter a valid date format (MM/DD/YYYY).');
+      return;
+    }
+
+    const formattedPrice = parseFloat(pricePurchased).toFixed(2);
 
     if (isNaN(formattedPrice)) {
       alert('Please enter a valid price.');
@@ -68,12 +69,15 @@ const formattedPrice = parseFloat(pricePurchased).toFixed(2);
         onChangeText={setAuthor}
       />
       <Text style={styles.label}>Cover Type:</Text>
-      <TextInput
-        style={styles.input}
-        value={coverType}
-        onChangeText={setCoverType}
-      />
-       <Text style={styles.label}>Date Purchased (MM/DD/YYYY):</Text>
+      <Picker
+        style={styles.picker}
+        selectedValue={coverType}
+        onValueChange={itemValue => setCoverType(itemValue)}
+      >
+        <Picker.Item label="Hardcover" value="hardcover" />
+        <Picker.Item label="Paperback" value="paperback" />
+      </Picker>
+      <Text style={styles.label}>Date Purchased (MM/DD/YYYY):</Text>
       <TextInput
         style={styles.input}
         value={datePurchased}
@@ -97,6 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#bae6fd',
+    shadowColor: 'rgba(0, 0, 0, 0.3)', // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 1, // Shadow opacity
+    shadowRadius: 4, // Shadow radius
+    elevation: 5, // Android shadow elevation
   },
   title: {
     fontSize: 20,
@@ -110,10 +120,26 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    backgroundColor: 'white',
     marginBottom: 16,
     paddingHorizontal: 8,
+    shadowColor: 'rgba(0, 0, 0, 0.3)', // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 1, // Shadow opacity
+    shadowRadius: 4, // Shadow radius
+    elevation: 3, // Android shadow elevation
+  },
+  picker: {
+    width: '80%',
+    height: 40,
+    backgroundColor: 'white',
+    marginBottom: 16,
+    paddingHorizontal: 8,
+    shadowColor: 'rgba(0, 0, 0, 0.3)', // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 1, // Shadow opacity
+    shadowRadius: 4, // Shadow radius
+    elevation: 3, // Android shadow elevation
   },
 });
 

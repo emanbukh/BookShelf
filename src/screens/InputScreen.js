@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-
+import { Picker } from '@react-native-picker/picker';
 
 const db = SQLite.openDatabase('bookdb.db');
 
 const InputScreen = ({ route }) => {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
   const { isbn } = route.params;
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
-  const [coverType, setCoverType] = useState('');
+  const [coverType, setCoverType] = useState('Hardcover');
   const [datePurchased, setDatePurchased] = useState('');
   const [pricePurchased, setPricePurchased] = useState('');
 
@@ -77,12 +77,15 @@ const InputScreen = ({ route }) => {
         onChangeText={setAuthor}
       />
       <Text style={styles.label}>Cover Type:</Text>
-      <TextInput
-        style={styles.input}
-        value={coverType}
-        onChangeText={setCoverType}
-      />
-       <Text style={styles.label}>Date Purchased (MM/DD/YYYY):</Text>
+      <Picker
+        style={styles.picker}
+        selectedValue={coverType}
+        onValueChange={value => setCoverType(value)}
+      >
+        <Picker.Item label="Hardcover" value="Hardcover" />
+        <Picker.Item label="Paperback" value="Paperback" />
+      </Picker>
+      <Text style={styles.label}>Date Purchased (MM/DD/YYYY):</Text>
       <TextInput
         style={styles.input}
         value={datePurchased}
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#bae6fd',
   },
   label: {
     fontSize: 16,
@@ -117,6 +121,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  picker: {
+    width: '80%',
+    height: 40,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
 });
 

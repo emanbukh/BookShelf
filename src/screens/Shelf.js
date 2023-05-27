@@ -43,16 +43,20 @@ function BookListScreen() {
     setTotalBooks(filtered.length);
   };
 
-  const renderBookItem = ({ item, index }) => (
-    <TouchableOpacity
-      style={styles.bookItem}
-      onPress={() => navigateToBookDetail(item)}
-    >
-      <Text style={styles.bookItemText}>{index + 1}. ISBN: {item.isbn}</Text>
-      <Text style={styles.bookItemText}>Name: {item.name}</Text>
-      <View style={styles.separator} />
-    </TouchableOpacity>
-  );
+  const renderBookItem = ({ item, index }) => {
+    const isEven = index % 2 === 0;
+    const backgroundColor = isEven ? '#ccfbf1' : '#ecfeff';
+
+    return (
+      <TouchableOpacity
+        style={[styles.bookItem, { backgroundColor }]}
+        onPress={() => navigateToBookDetail(item)}
+      >
+        <Text style={styles.bookItemText}>{index + 1}. ISBN: {item.isbn}</Text>
+        <Text style={[styles.bookItemText, { paddingLeft: 16 }]}>Book Name: {item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -90,31 +94,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#bae6fd'
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 16,textAlign: 'center',
+    
   },
   searchInput: {
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 8,
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    padding: 8,marginTop: 8,
   },
   bookItem: {
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 8,
+    borderRadius: 8,
+    padding: 16,
   },
   bookItemText: {
     fontSize: 16,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: 'gray',
-    marginVertical: 8,
   },
 });
 

@@ -83,14 +83,20 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    backgroundColor: '#bae6fd'
   },
   bookNotFoundContainer: {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: [{ translateX: -50 }, { translateY: -50 }],
+    marginTop: -50,
+    marginLeft: -50,
+    width: 200,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    padding: 16,
     borderRadius: 8,
   },
   bookNotFoundText: {
