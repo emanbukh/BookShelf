@@ -69,18 +69,21 @@ const InputScreen = ({ route }) => {
         style={styles.input}
         value={name}
         onChangeText={setName}
+        placeholderTextColor="#000000"
       />
       <Text style={styles.label}>Author:</Text>
       <TextInput
         style={styles.input}
         value={author}
         onChangeText={setAuthor}
+        placeholderTextColor="#000000"
       />
       <Text style={styles.label}>Cover Type:</Text>
       <Picker
         style={styles.picker}
         selectedValue={coverType}
         onValueChange={value => setCoverType(value)}
+        mode="dropdown"
       >
         <Picker.Item label="Hardcover" value="Hardcover" />
         <Picker.Item label="Paperback" value="Paperback" />
@@ -90,6 +93,7 @@ const InputScreen = ({ route }) => {
         style={styles.input}
         value={datePurchased}
         onChangeText={setDatePurchased}
+        placeholderTextColor="#000000"
       />
       <Text style={styles.label}>Price Purchased:</Text>
       <TextInput
@@ -97,6 +101,7 @@ const InputScreen = ({ route }) => {
         value={pricePurchased.toString()}
         onChangeText={text => setPricePurchased(text)}
         keyboardType="decimal-pad"
+        placeholderTextColor="#000000"
       />
       <Button title="Save" onPress={handleSave} />
     </View>
@@ -117,17 +122,27 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+    borderWidth: 0.5,
+    
+    backgroundColor: '#ffffff',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
   picker: {
     width: '80%',
     height: 40,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#000000',
+    backgroundColor: '#ffffff',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
 });
 

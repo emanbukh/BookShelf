@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import * as SQLite from "expo-sqlite";
 
@@ -29,6 +29,10 @@ function RegisterScreen() {
     navigation.navigate('InputScreen', { isbn: data });
   };
 
+  const handleScanAgain = () => {
+    setScanned(false);
+  };
+
   if (hasPermission === null) {
     return <View />;
   }
@@ -46,6 +50,7 @@ function RegisterScreen() {
       {scanned && (
         <View style={styles.scanOverlay}>
           <Text style={styles.scanOverlayText}>Barcode scanned!</Text>
+          <Button title="Scan Again" onPress={handleScanAgain} />
         </View>
       )}
     </View>
@@ -72,6 +77,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
+    marginBottom: 16,
   },
 });
 

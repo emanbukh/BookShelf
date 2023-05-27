@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView, StatusBar as RNStatusBar } from "react-native";
+import { SafeAreaView, StatusBar as RNStatusBar, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import InputScreen from "./src/screens/InputScreen";
 import BookListScreen from "./src/screens/Shelf";
 import BookDetailScreen from "./src/screens/BookDetail";
 import EditScreen from "./src/screens/Edit";
+
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,12 @@ export default function App() {
             options={{
               headerStyle: {
                 backgroundColor: "#7dd3fc",
-              },
+              },headerRight: () => (
+                <Image
+                  source={require("./assets/bookshelf.png")}
+                  style={{ marginRight: 16, width: 30, height: 30 }}
+                />
+              ),
             }}
           />
           <Stack.Screen
